@@ -1,0 +1,56 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Image Upload App
+
+host: localhost:10010
+
+basePath: /
+
+schemes:
+  - http
+  - https
+
+consumes:
+  - application/json
+
+produces:
+  - application/json
+paths:
+  /image-upload:
+    x-swagger-router-controller: image_upload
+    post:
+      description: Returns 'File uploaded'
+      operationId: uploadImage
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: uploadfile
+          type: file
+          description: The file to upload.
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/ImageUploadResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+
+definitions:
+  ImageUploadResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
